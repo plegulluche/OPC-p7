@@ -1,3 +1,5 @@
-P7 OPC feuille route
+P7 OPC  feuille route
 testflask.py
 *.txt
+virtualenv/
+.vscode/
