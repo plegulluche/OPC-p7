@@ -1,30 +1,56 @@
-import grandpy
+import json
 from grandpy.apigoogle import Apigoogle
-from grandpy.customparse import Customparser
-#a verifier : -status 200 (ok) 
-#           : -status 403 (forbidden : key problem)
-#           : -status 400 bad request
-#           : que le retour est bien une image
-#           : que l image n est pas vide ? 
 
 
-
-def test_make_api_call_check_status_code_equals_200(mocker):
-    mocker.patch("grandpy.customparse.Customparser.get_loc_as_string", return_value = "tour eiffel paris")
-    api = Apigoogle()
-    response = api.make_api_call_to_google()
-    assert response.status_code == 200
+def mock_requestget(*args,**kwarg):
+        
+        class mock_response:
+         
+            def __init__(self):
+                datastructure = {
+                "results": [
+                    {
+                        "adress_components": ["some irrelevants components"],
+                        "formatted_adress" : "adress full text mode, single string",
+                        "geometry" : {
+                            "location" : {
+                                "lat" : 48.85837009999999,
+                                "lng" : 2.2944813
+                            }
+                        }
+                    
+                }]}
+                self.data = json.dumps(datastructure)
+                self.status_code = self.status()
+            def status(self):
+                return 200
+            def json(self):
+                return json.loads(self.data)
+            
+        response = mock_response()
+        return response
     
-def test_make_api_call_gets_an_image(mocker):
-    mocker.patch("grandpy.customparse.Customparser.get_loc_as_string", return_value = "tour eiffel paris")
+def mock_parser():
+    return "tour eiffel paris"
+    
+def test_response_status_is_200(mocker):
+          
+    mocker.patch('requests.get', mock_requestget)
+    mocker.patch('grandpy.customparse.Customparser.get_loc_as_string', mock_parser)
     api = Apigoogle()
-    response = api.make_api_call_to_google()
-    response_body = response.headers
-    assert response_body["Content-Type"] == "image/png"
+    result = api.make_api_call_to_google()
+    assert result.status_code == 200
     
 
 
-
+def test_requestget_gets_coordinates(mocker):
+    
+    mocker.patch('requests.get', mock_requestget)
+    mocker.patch('grandpy.customparse.Customparser.get_loc_as_string', mock_parser)
+    api = Apigoogle()
+    result = api.get_coord_from_response()
+    assert result == {"lat" : 48.85837009999999 , "lng" : 2.2944813}
+        
 
 
 
