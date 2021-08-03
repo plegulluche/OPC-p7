@@ -9,10 +9,10 @@ class Customparser:
     """
 
 
-    def __init__(self):
+    def __init__(self,user_input):
         """Customparser class constructor.
         """
-        pass
+        self.userinput = user_input
 
     
     def __enlever_pronom_avec_apostrophe(self,astring):
@@ -81,7 +81,7 @@ class Customparser:
         cleanlist = firstclean[:indexfin+1]
         return cleanlist
                 
-    def get_loc_as_string(self,user_input):
+    def get_loc_as_string(self):
         """From the list of string return by Customparse.__cut_loc() method
            extract the keyword defining the location asked by the user and return it as a string. 
         Args:
@@ -90,7 +90,7 @@ class Customparser:
         Returns:
             string : return a string with a location
         """
-        rawlist = self.__cut_loc(user_input)
+        rawlist = self.__cut_loc(self.userinput)
         put_in_string = " ".join(rawlist)
         newstring = re.sub('[?!.,]', '',put_in_string)
         make_a_list = newstring.split(" ")

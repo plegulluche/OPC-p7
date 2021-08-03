@@ -7,13 +7,14 @@ from grandpy.customparse import Customparser
 
 class Apigoogle:
     
-    def __init__(self):
-        self.loc = Customparser.get_loc_as_string()
+    def __init__(self,user_input):
+        cparser = Customparser(user_input)
+        self.loc = cparser.get_loc_as_string()
         self.key = dotenv_values(".env")
-        self.url = "https://maps.googleapis.com/maps/api/geocode/json?"
+        self.baseurl = "https://maps.googleapis.com/maps/api/geocode/json?"
           
     
-    def make_api_call_to_google(self):
+    def __make_api_call_to_google(self):
         for key, values in self.key.items():
             apikey = values 
         listofparamforapicall = self.loc.split(" ")
@@ -24,26 +25,29 @@ class Apigoogle:
                 stringwithlocparam += locwords + "+"
             else:
                 stringwithlocparam += locwords
-        payload = {'address=': locwords,'key': apikey}
+        payload = {'address': stringwithlocparam,'key': apikey}
         
-        r = requests.get(self.url, params=payload)
+        r = requests.get(self.baseurl, params=payload)
+
         
-        if r.status_code == 400:
-            return "BAD REQUEST"
-        elif r.status_code == 403:
-            return "FORBIDDEN KEY MUST BE INVALID"
-        elif r.status_code == 200:
+        if r.status_code != 200:
+            return "request failed"
+        else:
             return r
               
     
-    def get_coord_from_response(self):
+    def extract_google_data_from_response(self):
         
-        response = self.make_api_call_to_google()
-        data = response.json()
-        coord = data.get("results")[0].get("geometry").get("location")
+        response = self.__make_api_call_to_google()
+        if response == "request failed":
+            return "request failed"
+        else:
+            data = response.json()
+            coord_and_adress_and_status_dict = data.get("results")[0].get("geometry").get("location")
+            coord_and_adress_and_status_dict["address"] = data.get("results")[0].get("formatted_address")
+            coord_and_adress_and_status_dict["status_google"] = 200
+            return coord_and_adress_and_status_dict
         
-        return coord
-    
 
         
         
