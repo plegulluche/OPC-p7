@@ -4,14 +4,26 @@ from grandpy.apigoogle import Apigoogle
 
 
 class Apiwikipedia:
+    """[summary]
+    """
     
     def __init__(self,data_dict):
+        """[summary]
+
+        Args:
+            data_dict ([type]): [description]
+        """
         self.google_datas = data_dict
         self.base_url_for_geo_search = "https://fr.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro&explaintext&redirects&list=geosearch"
         self.base_url_for_abstract = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1"
         self.page_id = 0
     
     def __make_api_call_to_wikipedia(self):
+        """[summary]
+
+        Returns:
+            [type]: [description]
+        """
         for key,values in self.google_datas.items():
             if key == "lat":
                 lat = values
@@ -38,6 +50,11 @@ class Apiwikipedia:
         
     
     def extract_data_from_wiki(self):
+        """[summary]
+
+        Returns:
+            [type]: [description]
+        """
         data_wiki = {}
         raw_data = self.__make_api_call_to_wikipedia()
         if raw_data == "request failed":

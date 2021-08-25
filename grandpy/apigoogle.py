@@ -6,8 +6,15 @@ from grandpy.customparse import Customparser
 
 
 class Apigoogle:
+    """[summary]
+    """
     
     def __init__(self,user_input):
+        """[summary]
+
+        Args:
+            user_input ([type]): [description]
+        """
         cparser = Customparser(user_input)
         self.loc = cparser.get_loc_as_string()
         self.key = dotenv_values(".env")
@@ -15,6 +22,11 @@ class Apigoogle:
           
     
     def __make_api_call_to_google(self):
+        """[summary]
+
+        Returns:
+            [type]: [description]
+        """
         for key, values in self.key.items():
             apikey = values 
         listofparamforapicall = self.loc.split(" ")
@@ -37,6 +49,11 @@ class Apigoogle:
               
     
     def extract_google_data_from_response(self):
+        """[summary]
+
+        Returns:
+            [type]: [description]
+        """
         
         response = self.__make_api_call_to_google()
         if response == "request failed":
