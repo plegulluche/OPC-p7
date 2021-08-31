@@ -34,4 +34,5 @@ class Datacleaner:
         finalresponse = {"google_response" : self.google_data,
                          "wiki_response" : self.wiki_data}
         jsondata = json.dumps(finalresponse)
+        print('pierre debug datacleaner return : ', type(jsondata))
         return jsondata
