@@ -35,6 +35,32 @@
                 text: text,
                 message_side: message_side
             });
+
+// 
+
+            fetch(`${window.origin}/process`, {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(message),
+                cache: 'no-cache',
+                headers: new Headers({ 'Content-Type': 'application/json'})
+            })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(`response status Not 200: ${response.status}`);
+                    return ;
+                }
+            
+                response.json().then( function (data) {
+                    
+                    const jsonResponse = JSON.stringify(data)
+                    
+                })    
+            })
+            
+// 
+
+            
             message.draw();
             return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
         };
@@ -48,50 +74,4 @@
         });
         
     });
-}.call(this)); 
-
-let message;
-
-$('.send_message').click(function (event) {
-    return message = $('.message_input').val();
-    
-})
-
-$(document).keydown(function (event) {
-    if (event.which === 13) {
-        return message = $('.message_input').val();
-        
-    }
-})
-
-console.log(message)
-if (message !== '' && message !== undefined) {
-
-fetch(`${window.origin}/process`, {
-    method: 'POST',
-    credentials: 'include',
-    body: JSON.stringify(message),
-    cache: 'no-cache',
-    headers: new Headers({ 'Content-Type': 'application/json'})
-})
-.then(function (response) {
-    if (response.status !== 200) {
-        console.log(`response status Not 200: ${response.status}`);
-        return ;
-    }
-
-    response.json().then( function (data) {
-        
-        const test = JSON.stringify(data)
-        console.log(test);
-
-        
-        const cursor = document.getElementById('response');
-        const createP = document.createElement('p');
-        createP.innerText = test
-        cursor.append(createP)
-     
-    })    
-})
-
-}
+}.call(this));
