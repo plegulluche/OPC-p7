@@ -79,6 +79,7 @@ class Customparser:
             if find is not None:
                 indexfin = firstclean.index(words)
         cleanlist = firstclean[:indexfin+1]
+        
         return cleanlist
                 
     def get_loc_as_string(self):

@@ -1,77 +1,44 @@
-(function () {
-    let Message;
-    Message = function (arg) {
-        this.text = arg.text, this.message_side = arg.message_side;
-        this.draw = function (_this) {
-            return function () {
-                let $message;
-                $message = $($('.message_template').clone().html());
-                $message.addClass(_this.message_side).find('.text').html(_this.text);
-                $('.messages').append($message);
-                return setTimeout(function () {
-                    return $message.addClass('appeared');
-                }, 0);
-            };
-        }(this);
-        return this;
-    };
-    $(function () {
-        let getMessageText, message_side, sendMessage;
-        message_side = 'right';
-        getMessageText = function () {
-            let $message_input;
-            $message_input = $('.message_input');
-            return $message_input.val();
-        };
-        sendMessage = function (text) {
-            let $messages, message;
-            if (text.trim() === '') {
-                return;
+document.querySelector('#submit-button').addEventListener('click', getInput);
+// phrase test : Comment s'est passé ta soirée avec Grandma hier soir? Au fait, pendant que j'y pense, pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît?
+function getInput(event) {
+    event.preventDefault();
+    console.log('insidegetInput')
+
+    let input = document.querySelector('#input-text').value;
+    let ul = document.querySelector('#items');
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode(input));
+    ul.appendChild(li);
+    document.querySelector('#my-form').reset();
+    console.log('ending getinput')
+
+    const sentence = document.querySelector('li').textContent;
+
+    if (sentence !== '' && sentence !== undefined) {
+        fetch(`${window.origin}/process`, {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(sentence),
+            cache: 'no-cache',
+            headers: new Headers({ 'Content-Type': 'application/json'})
+        })
+        .then((response) => {
+            if (response.status !== 200) {
+                let li2 = document.createElement('li');
+                li2.appendChild(document.createTextNode('Désolé mais je n\'ai pas compris ta requète'));
+                ul.appendChild(li2);
+                console.log(`response status Not 200: ${response.status}`);
+                return ;
             }
-            $('.message_input').val('');
-            $messages = $('.messages');
-            message_side = message_side === 'left' ? 'right' : 'left';
-            message = new Message({
-                text: text,
-                message_side: message_side
-            });
+        response.json().then((data) => {
+            const backData = JSON.stringify(data)
+            console.log(backData);
+            let li3 = document.createElement('li');
+            li3.appendChild(document.createTextNode(backData));
+            ul.appendChild(li3);
+        })
+        })
+    }
+       
+}
 
-// 
-
-            fetch(`${window.origin}/process`, {
-                method: 'POST',
-                credentials: 'include',
-                body: JSON.stringify(message),
-                cache: 'no-cache',
-                headers: new Headers({ 'Content-Type': 'application/json'})
-            })
-            .then(function (response) {
-                if (response.status !== 200) {
-                    console.log(`response status Not 200: ${response.status}`);
-                    return ;
-                }
-            
-                response.json().then( function (data) {
-                    
-                    const jsonResponse = JSON.stringify(data)
-                    
-                })    
-            })
-            
-// 
-
-            
-            message.draw();
-            return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
-        };
-        $('.send_message').click(function (e) {
-            return sendMessage(getMessageText());
-        });
-        $('.message_input').keyup(function (e) {
-            if (e.which === 13) {
-                return sendMessage(getMessageText());
-            }
-        });
-        
-    });
-}.call(this));

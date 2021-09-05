@@ -13,7 +13,7 @@ def process():
     
     req = request.get_json()
     print('pierre debug req: ', req, type(req))
-    data_cleaner = Datacleaner(req['text'])
+    data_cleaner = Datacleaner(req)
     json_response = data_cleaner.response_if_all_status_ok()
     print('pierre debug json resp : ', json_response, type(json_response))
     res = make_response(json_response, 200)
