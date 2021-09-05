@@ -5,3 +5,4 @@ venv/
 .vscode/
 .env
 bac_a_sable.py
+.flaskenv
