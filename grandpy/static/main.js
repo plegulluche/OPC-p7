@@ -43,15 +43,34 @@ function getInput(event) {
                 return ;
             }
 
-        response.json().then((data) => {
-                    backEndData = data   
+        response.json().then((data) => {  
+                    console.log(data)
                     console.log(data.google_response.lat)
-                    
-            })
-        
-        })
-    }
-    
-    
-}
+                    console.log(data.google_response.lng)
+                    let urlGoogleStaticMap = `https://maps.googleapis.com/maps/api/staticmap?
+                                              markers=size:mid%7Ccolor:red%7C
+                                              ${data.google_response.lat},${data.google_response.lng}&zoom=16&size=400x400
+                                              &key=AIzaSyCzrlC0qJAbxqEJheJHOO-QeztZxRm8f9U`
+                    console.log(urlGoogleStaticMap)
+                    fetch(urlGoogleStaticMap)
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            let rep = 'désolé je n\'ai pas compris'
+                            addLiToUl(rep)
+                            return ;
+                        }
+                        return response.blob();
+                    })
+                    .then((myBlob) => {
+                        let objectURL = URL.createObjectURL(myBlob);
+                        let image = document.createElement('img');
+                        image.src = objectURL;
+                        ulContainer.appendChild(image);
+                        // addLiToUl(image); donnes [object HTMLImageElement]
 
+                    })
+        
+                })
+            })
+        }
+    }
