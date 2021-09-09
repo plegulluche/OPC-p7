@@ -5,37 +5,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#">
-    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
     rel="stylesheet" 
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" 
     crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
     <title>Grandpybot</title>
 </head>
 <body>
-    <header id='main-header' class="bg-dark text-white p-4 mb-3">
-    <div class='container'>
-        <h1 id='header-title'>Header</h1>
-    </div>
-    </header>
-    <div>
-        <div id='main'>
-            <h2 class='title'>fenetre de dialogue du bot</h2>
-            <ul id='items' class='list-group'></ul>
-            <form id='my-form'>
-                <input type='text' id='input-text' class='form-control mr-2' placeholder='enter your message here'>
-                <input type='submit' id='submit-button' class='btn btn-dark' value='    Envoi    '>
-            </form>
-            
+    <!--------------------NAVBAR---------------------->
+    <nav class="navbar navbar-expand-md bg-secondary navbar-dark text-white text-center">
+        <div class="container">
+        Grandpy OPC Projet 7  </br>Etudiant : Pierre Le Gulluche </br> Mentor : Ranga Gonage
         </div>
-    
-    </div>
+    </nav>
+    <!-------------------------FIRST PRESENTATION SECTION-------------------------->
+    <section class="bg-dark text-light p-5 text-center text-sm-start">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <div>
+                    <img class="img-fluid w-75 d-none d-sm-block" src="{{ url_for('static', filename='img.jpg') }}" alt="">   
+                </div>
+                <div>
+                    <h1><span class="text-warning">GRANDPY</span> BOT</h1>
+                    <p class="lead">Grandpy te donnes toutes les infos utiles sur un lieu.
+                        Demandes lui et il t'indiques l'adresse, la carte et te racontes même
+                        l'histoire de ce lieu si il la connaît.
+                        Malheureusement il est un peu vieux jeux et ne comprend que le bon
+                        vrai <span class="text-warning">français bien écrit !</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-------------------------------------CUSTOM CHAT BOX--------------------------------->
+    <section class="bg-light">
+        <div class="container">
+            <div class="header">
+                <h2>Messages chat box</h2>
+            </div>
+            <div class="box" id="outer-box">
+                <div class="inner" id="inner-box">
+                <!--messages card left and right-->
+                
+                </div>
+                <!--form field-->
+                <div>    
+                    <form id="my-form" class="form-control bg-secondary">
+                        <input id="input-text" class="form-control bg-warning" placeholder="Fait ta demande a Grandpy ici !" type="text">
+                        <button id="submit-button" class="btn btn-dark btn-lg">Envoyer</button>
+                    </form>
+                </div>
+                <!-------------->
+            </div>
+        </div>    
+    </section>
+    <!------------------------------------------------------------------------------------------>
     <footer id='footer' class='bg-dark text-white'>
         <h2>Footer</h2>
     </footer>
+    <!-------------------------------------------------------------------------------------------->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" 
     crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzrlC0qJAbxqEJheJHOO-QeztZxRm8f9U&callback=initMap">google.maps.event.addDomListener(window,'load', initMap);</script>
 </body>
 </html>

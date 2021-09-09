@@ -2,7 +2,7 @@
 
 const submitButton = document.querySelector('#submit-button');
 const inputField = document.querySelector('#input-text');
-const ulContainer = document.querySelector('#items');
+const chatBoxContainer = document.querySelector('#inner-box');
 
 
 //LISTENERS
@@ -11,18 +11,36 @@ submitButton.addEventListener('click', getInput);
 
 //FUNCTIONS
 // phrase test : Comment s'est passé ta soirée avec Grandma hier soir? Au fait, pendant que j'y pense, pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît?
+
+
 function getInput(event) {
     event.preventDefault();
-    //Create li
-    function addLiToUl(value) {
-        let li = document.createElement('li');
-        li.setAttribute('class', 'text-message')
-        li.appendChild(document.createTextNode(value));
-        ulContainer.appendChild(li);
+   
+    //Create textbox card with text to the right.
+    function createCardRight(data) {
+        let divCardRight = document.createElement("div");
+        divCardRight.setAttribute("class", 'card text-end');
+        divCardRight.innerHTML = `<div class="card-body p-3 m-3"><h5 class="card-title">YOU</h5><p class="card-text">${data}</p></div>`
+        chatBoxContainer.appendChild(divCardRight);
+    }
+
+    //Create textbox card with text to the left.
+    function createCardLeft(data) {
+        let divCardLeft = document.createElement('div');
+        divCardLeft.setAttribute('class', 'card');
+        divCardLeft.innerHTML = `<div class="card-body p-3 m-3"><h5 class="card-title">GrandPYBOT</h5><p>${data}</p></div>`
+        chatBoxContainer.appendChild(divCardLeft);
+    }
+
+    function addDivforImg() {
+        let divForMap = document.createElement('div');
+        divForMap.setAttribute("class", 'card');
+        divForMap.innerHTML = "<div id='map'></div>";
+        chatBoxContainer.appendChild(divForMap);
     }
     //Select value of input field
     let inputValue = inputField.value;
-    addLiToUl(inputValue);
+    createCardRight(inputValue);
     //Reseting the input field 
     document.querySelector('#my-form').reset();
     
@@ -38,38 +56,32 @@ function getInput(event) {
         })
         .then((response) => {
             if (response.status !== 200) {
-                let rep = 'désolé je n\'ai pas compris'
-                addLiToUl(rep)
+                let rep = 'désolé je n\'ai pas compris, essaye de me donner le pays ca peut m\'aider.'
+                createCardLeft(rep)
                 return ;
             }
 
-        response.json().then((data) => {  
-                    console.log(data)
-                    console.log(data.google_response.lat)
-                    console.log(data.google_response.lng)
-                    let urlGoogleStaticMap = `https://maps.googleapis.com/maps/api/staticmap?
-                                              markers=size:mid%7Ccolor:red%7C
-                                              ${data.google_response.lat},${data.google_response.lng}&zoom=16&size=400x400
-                                              &key=AIzaSyCzrlC0qJAbxqEJheJHOO-QeztZxRm8f9U`
-                    console.log(urlGoogleStaticMap)
-                    fetch(urlGoogleStaticMap)
-                    .then((response) => {
-                        if (response.status !== 200) {
-                            let rep = 'désolé je n\'ai pas compris'
-                            addLiToUl(rep)
-                            return ;
-                        }
-                        return response.blob();
+        response.json().then((data) => {
+                    
+                    let lat = data.google_response.lat
+                    let long = data.google_response.lng
+                    addDivforImg();
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: {lat:lat, lng:long},
+                        zoom:16
                     })
-                    .then((myBlob) => {
-                        let objectURL = URL.createObjectURL(myBlob);
-                        let image = document.createElement('img');
-                        image.src = objectURL;
-                        ulContainer.appendChild(image);
-                        // addLiToUl(image); donnes [object HTMLImageElement]
-
-                    })
-        
+                    const marker = new google.maps.Marker({
+                        position: {lat:lat, lng:long},
+                        map: map,
+                    });
+                    createCardLeft("voici l'adresse que tu m'as demandée :  " + data.google_response.address);
+                    createCardLeft("D'ailleurs savais-tu que " + data.wiki_response.extract);
+                    createCardLeft("Voici un lien sur ce lieu si tu veux en apprendre plus :  " + "<a href="+data.wiki_response.url_wikipedia+">Vers Wikipedia et au delà !</a>")
+                    
+                    
+                    
+                    
+                    
                 })
             })
         }
