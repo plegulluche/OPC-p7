@@ -1,7 +1,7 @@
 from grandpy import app
 from grandpy.datacleaner import Datacleaner
 
-from flask import render_template, request, redirect, url_for, jsonify, make_response
+from flask import render_template, request, make_response
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -12,10 +12,7 @@ def home():
 def process():
     
     req = request.get_json()
-    print('pierre debug req: ', req, type(req))
     data_cleaner = Datacleaner(req)
     json_response = data_cleaner.response_if_all_status_ok()
-    print('pierre debug json resp : ', json_response, type(json_response))
     res = make_response(json_response, 200)
-    print('pierre debug res: ', res , type(res))
     return res

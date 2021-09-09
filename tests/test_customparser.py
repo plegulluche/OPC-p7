@@ -34,3 +34,9 @@ def test_parser_get_loc_and_city():
     leparser = Customparser(astring)
     result = leparser.get_loc_as_string()
     assert result == "musee art histoire fribourg"
+    
+def test_parser_get_loc_and_city2():
+    astring = "Salut Grandpy! pourrai tu me donner l'adresse de l'arc de triomphe a paris?"
+    leparser = Customparser(astring)
+    result = leparser.get_loc_as_string()
+    assert result == "arc de triomphe paris"

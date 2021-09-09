@@ -10,9 +10,6 @@ submitButton.addEventListener('click', getInput);
 
 
 //FUNCTIONS
-// phrase test : Comment s'est passé ta soirée avec Grandma hier soir? Au fait, pendant que j'y pense, pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît?
-
-
 function getInput(event) {
     event.preventDefault();
    
@@ -78,18 +75,12 @@ function getInput(event) {
                     switch (data.wiki_response.status_wikipedia) {
                         case 200:
                             createCardLeft("D'ailleurs savais-tu que " + data.wiki_response.extract);
+                            createCardLeft("Voici un lien sur ce lieu si tu veux en apprendre plus :  " + "<a href="+data.wiki_response.url_wikipedia+">Vers Wikipedia et au delà !</a>")
                             break;
                         case 400:
                             createCardLeft("Hummm il semble que je ne saches rien sur le lieu, peut etre qu'en me disant dans quel pays il se situe ca rafraichirait ma mémoire");
                             break;
-                    }
-                    
-                    createCardLeft("Voici un lien sur ce lieu si tu veux en apprendre plus :  " + "<a href="+data.wiki_response.url_wikipedia+">Vers Wikipedia et au delà !</a>")
-                    
-                    
-                    
-                    
-                    
+                    }                                                                           
                 })
             })
         }

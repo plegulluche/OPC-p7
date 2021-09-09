@@ -14,12 +14,6 @@
     <title>Grandpybot</title>
 </head>
 <body>
-    <!--------------------NAVBAR---------------------->
-    <nav class="navbar navbar-expand-md bg-secondary navbar-dark text-white text-center">
-        <div class="container">
-        Grandpy OPC Projet 7  </br>Etudiant : Pierre Le Gulluche </br> Mentor : Ranga Gonage
-        </div>
-    </nav>
     <!-------------------------FIRST PRESENTATION SECTION-------------------------->
     <section class="bg-dark text-light p-5 text-center text-sm-start">
         <div class="container">
@@ -67,7 +61,7 @@
         <div id="card-bottom" class="card bg-secondary">
             <div id="card-body2" class="card-body text-center">
                 <img 
-                    src="https://randomuser.me/api/portraits/men/11.jpg"
+                    src="{{ url_for('static', filename='profilok.resized.jpg') }}"
                     class="rounded-circle mb-3"
                     alt=""
                 />
