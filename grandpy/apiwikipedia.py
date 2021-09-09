@@ -33,7 +33,10 @@ class Apiwikipedia:
         
         r_page_id = requests.get(self.base_url_for_geo_search, params=payload)
         
+
         if r_page_id.status_code != 200:
+            return "request failed"
+        elif r_page_id.json()["query"]["geosearch"] == []:
             return "request failed"
         else:
             pageiddatas = r_page_id.json()['query']['geosearch'][0]['pageid']
@@ -42,6 +45,7 @@ class Apiwikipedia:
         payload = {'pageids' : pageiddatas}
         
         r_extract = requests.get(self.base_url_for_abstract, params=payload)
+
         
         if r_extract.status_code != 200:
             return "request failed"
@@ -58,7 +62,8 @@ class Apiwikipedia:
         data_wiki = {}
         raw_data = self.__make_api_call_to_wikipedia()
         if raw_data == "request failed":
-            return "request failed"
+            data_wiki["status_wikipedia"] = 400
+            return data_wiki
         else:
             clean_data = raw_data.json()
             data_wiki["status_wikipedia"] = 200

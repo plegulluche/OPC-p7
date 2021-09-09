@@ -24,10 +24,10 @@ def test_parse_enleve_accents():
 
 
 def test_parser_get_loc_as_string():
-    astring = "Bonsoir Grandpy, j'espère que tu as passé une belle semaine. Est-ce que tu pourrais m'indiquer l'adresse de la tour eiffel? Merci d'avance et salutations à Mamie."
+    astring = "Bonsoir Grandpy, j'espère que tu as passé une belle semaine. Est-ce que tu pourrais m'indiquer l'adresse de la tour eiffel a Paris? Merci d'avance et salutations à Mamie."
     leparser = Customparser(astring)
     result = leparser.get_loc_as_string()
-    assert result == "tour eiffel"
+    assert result == "tour eiffel paris"
 
 def test_parser_get_loc_and_city():
     astring = "Salut grandpy! Comment s'est passé ta soirée avec Grandma hier soir? Au fait, pendant que j'y pense, pourrais-tu m'indiquer où se trouve le musée d'art et d'histoire de Fribourg, s'il te plaît?"

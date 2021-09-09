@@ -75,7 +75,15 @@ function getInput(event) {
                         map: map,
                     });
                     createCardLeft("voici l'adresse que tu m'as demandée :  " + data.google_response.address);
-                    createCardLeft("D'ailleurs savais-tu que " + data.wiki_response.extract);
+                    switch (data.wiki_response.status_wikipedia) {
+                        case 200:
+                            createCardLeft("D'ailleurs savais-tu que " + data.wiki_response.extract);
+                            break;
+                        case 400:
+                            createCardLeft("Hummm il semble que je ne saches rien sur le lieu, peut etre qu'en me disant dans quel pays il se situe ca rafraichirait ma mémoire");
+                            break;
+                    }
+                    
                     createCardLeft("Voici un lien sur ce lieu si tu veux en apprendre plus :  " + "<a href="+data.wiki_response.url_wikipedia+">Vers Wikipedia et au delà !</a>")
                     
                     
