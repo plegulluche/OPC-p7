@@ -1,8 +1,6 @@
-P7 OPC  feuille route
-testflask.py
-*.txt
 venv/
 .vscode/
 .env
 bac_a_sable.py
 .flaskenv
+tests/
