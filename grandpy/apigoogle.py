@@ -1,5 +1,6 @@
 import requests
-from dotenv import dotenv_values
+import os
+
 
 from grandpy.customparse import Customparser
 
@@ -17,7 +18,6 @@ class Apigoogle:
         """
         cparser = Customparser(user_input)
         self.loc = cparser.get_loc_as_string()
-        self.key = dotenv_values(".env")
         self.baseurl = "https://maps.googleapis.com/maps/api/geocode/json?"
           
     
@@ -27,8 +27,8 @@ class Apigoogle:
         Returns:
             [type]: [description]
         """
-        for key, values in self.key.items():
-            apikey = values 
+        
+        apikey = os.getenv("KEY")
         listofparamforapicall = self.loc.split(" ")
         stringwithlocparam = ""
         for locwords in listofparamforapicall:
