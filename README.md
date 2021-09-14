@@ -48,7 +48,7 @@ While in the app, just enter your query in the chatbox and the bot will run the 
 
 ## Auteurs
 
-* **Pierre Le Gulluche** _alias_ [@outout14](https://github.com/plegulluche)
+* **Pierre Le Gulluche** _alias_ [@plegulluche](https://github.com/plegulluche)
 
 
 ## License
