@@ -1,4 +1,5 @@
 import requests
+import os
 
 from grandpy.customparse import Customparser
 
@@ -24,7 +25,7 @@ class Apigoogle:
             response object: response from requests.
         """
 
-        apikey = "AIzaSyCzrlC0qJAbxqEJheJHOO-QeztZxRm8f9U"  # os.getenv("KEY")
+        apikey = os.getenv("KEY")
         listofparamforapicall = self.loc.split(" ")
         stringwithlocparam = ""
         for locwords in listofparamforapicall:
