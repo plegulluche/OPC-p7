@@ -4,23 +4,24 @@ from grandpy.customparse import Customparser
 
 
 class Apigoogle:
-    """[summary]"""
+    """Class designed to make Api calls to the google maps Api using name of a location to retreive its coordinates."""
 
     def __init__(self, user_input):
-        """[summary]
+        """Apigoogle class constructor.
 
         Args:
-            user_input ([type]): [description]
+            user_input (string): parsed string with name of a location.
         """
         cparser = Customparser(user_input)
         self.loc = cparser.get_loc_as_string()
         self.baseurl = "https://maps.googleapis.com/maps/api/geocode/json?"
 
     def __make_api_call_to_google(self):
-        """[summary]
+        """Method of the Apigoogle class, makes an api call to google maps,
+        and returns the response object.
 
         Returns:
-            [type]: [description]
+            response object: response from requests.
         """
 
         apikey = "AIzaSyCzrlC0qJAbxqEJheJHOO-QeztZxRm8f9U"  # os.getenv("KEY")
@@ -42,10 +43,11 @@ class Apigoogle:
             return r
 
     def extract_google_data_from_response(self):
-        """[summary]
+        """Method of the Apigoogle class, parse the datas from the response
+        object and return them as dict.
 
         Returns:
-            [type]: [description]
+            dict: contains name of the location and its coordinates.
         """
 
         response = self.__make_api_call_to_google()
@@ -53,7 +55,6 @@ class Apigoogle:
             return "request failed"
         else:
             data = response.json()
-            print(data)
             coord_and_adress_and_status_dict = (
                 data.get("results")[0].get("geometry").get("location")
             )

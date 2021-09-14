@@ -5,13 +5,15 @@ from grandpy.apiwikipedia import Apiwikipedia
 
 
 class Datacleaner:
-    """[summary]"""
+    """Class that calls the Apigoogle and Apiwikipedia classes 
+       and construct a json object with the data returned from those classes.
+    """
 
     def __init__(self, user_input):
-        """[summary]
+        """Datacleaner class constructor.
 
         Args:
-            user_input ([type]): [description]
+            user_input (string): the user input entered in the app.
         """
 
         self.user_input = user_input
@@ -21,10 +23,12 @@ class Datacleaner:
         self.wiki_data = self.wiki.extract_data_from_wiki()
 
     def response_if_all_status_ok(self):
-        """[summary]
+        """Datacleaner class method,
+        build a json object with the data from the calls
+        to the Api classes.
 
         Returns:
-            [type]: [description]
+            [json]: a json object with the data.
         """
 
         finalresponse = {

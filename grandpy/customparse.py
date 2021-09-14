@@ -9,7 +9,7 @@ class Customparser:
     """
 
     def __init__(self, user_input):
-        """Customparser class constructor."""
+        """Customparser class constructor, takes the userinput as arg as a string."""
         self.userinput = user_input
 
     def __enlever_pronom_avec_apostrophe(self, astring):
@@ -70,12 +70,9 @@ class Customparser:
             if words in stop1:
                 indexdebut = splittedstring.index(words)
         firstclean = splittedstring[indexdebut::]
-        print(firstclean)
-        print(len(firstclean))
         patern = r'\w+\?'
         if len(firstclean) > 1:
             for words in firstclean:
-                print(words)
                 if re.match(patern, words) is not None:
                     indexfin = firstclean.index(words)
         else:
@@ -105,5 +102,4 @@ class Customparser:
             while words in make_a_list:
                 make_a_list.remove(words)
         finalstring = " ".join(make_a_list)
-        print(finalstring)
         return finalstring
