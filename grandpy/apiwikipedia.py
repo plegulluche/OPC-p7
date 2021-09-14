@@ -2,13 +2,13 @@ import requests
 
 
 class Apiwikipedia:
-    """[summary]"""
+    """Class designed to make Api calls to the Wkipedia Api using its coordinates."""
 
     def __init__(self, data_dict):
-        """[summary]
+        """Apiwikipedia class constructor.
 
         Args:
-            data_dict ([type]): [description]
+            data_dict (dict): a dict containing name and coordinates of a location.
         """
         self.google_datas = data_dict
         self.base_url_for_geo_search = "https://fr.wikipedia.org/w/api.php?action=query"\
@@ -18,10 +18,12 @@ class Apiwikipedia:
         self.page_id = 0
 
     def __make_api_call_to_wikipedia(self):
-        """[summary]
+        """Method of the Apiwikipedia class, makes an api call to Wikipedia Api,
+        and returns the response object.
+
 
         Returns:
-            [type]: [description]
+            response object: the response object from the requests.get method.
         """
         for key, values in self.google_datas.items():
             if key == "lat":
@@ -50,10 +52,11 @@ class Apiwikipedia:
             return r_extract
 
     def extract_data_from_wiki(self):
-        """[summary]
-
+        """Method of the Apiwikipedia class, parse the content of the response object and extract the
+        abstract and the link to the wikipedia page.
+        
         Returns:
-            [type]: [description]
+            dict: a dict containing a link to the wikipedia page and a short abstract.
         """
         data_wiki = {}
         raw_data = self.__make_api_call_to_wikipedia()
