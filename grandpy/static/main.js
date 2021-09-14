@@ -3,6 +3,7 @@
 const submitButton = document.querySelector('#submit-button');
 const inputField = document.querySelector('#input-text');
 const chatBoxContainer = document.querySelector('#inner-box');
+let mapCount = 0
 
 
 //LISTENERS
@@ -29,10 +30,10 @@ function getInput(event) {
         chatBoxContainer.appendChild(divCardLeft);
     }
 
-    function addDivforImg() {
+    function addDivforImg(number) {
         let divForMap = document.createElement('div');
         divForMap.setAttribute("class", 'card');
-        divForMap.innerHTML = "<div id='map'></div>";
+        divForMap.innerHTML = `<div id='map${number}'></div>`;
         chatBoxContainer.appendChild(divForMap);
     }
     //Select value of input field
@@ -53,17 +54,24 @@ function getInput(event) {
         })
         .then((response) => {
             if (response.status !== 200) {
-                let rep = 'désolé je n\'ai pas compris, essaye de me donner le pays ca peut m\'aider.'
+                let rep = 'désolé je n\'ai pas compris, essaye de mieux formuler ta demande.'
                 createCardLeft(rep)
                 return ;
             }
 
         response.json().then((data) => {
                     
-                    let lat = data.google_response.lat
-                    let long = data.google_response.lng
-                    addDivforImg();
-                    map = new google.maps.Map(document.getElementById('map'), {
+                    let lat = data.google_response.lat;
+                    let long = data.google_response.lng;
+                    let mapElements = document.querySelectorAll('[id^="map"]');
+                    if (mapElements.length < 1) {
+                        addDivforImg(mapCount);
+                    } else {
+                        mapCount++;
+                        addDivforImg(mapCount);   
+                    }
+                   
+                    map = new google.maps.Map(document.getElementById(`map${mapCount}`), {
                         center: {lat:lat, lng:long},
                         zoom:16
                     })

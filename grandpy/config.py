@@ -611,4 +611,21 @@ stopwords = [
 
 locwords = ["indiquer", "adresse", "trouve", "direction"]
 
-lettres_avec_accents = ["à", "â", "ä", "é", "è", "ê", "ë", "ï", "î", "ô", "ö", "ù", "û", "ü", "ÿ", "ç"]
+lettres_avec_accents = [
+    "à",
+    "â",
+    "ä",
+    "é",
+    "è",
+    "ê",
+    "ë",
+    "ï",
+    "î",
+    "ô",
+    "ö",
+    "ù",
+    "û",
+    "ü",
+    "ÿ",
+    "ç",
+]

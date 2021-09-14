@@ -8,26 +8,23 @@ class Customparser:
     Languages supported : French.
     """
 
-
-    def __init__(self,user_input):
-        """Customparser class constructor.
-        """
+    def __init__(self, user_input):
+        """Customparser class constructor."""
         self.userinput = user_input
 
-    
-    def __enlever_pronom_avec_apostrophe(self,astring):
+    def __enlever_pronom_avec_apostrophe(self, astring):
         """Strip pronun with apostrophe from a string
 
         Args:
             astring (str): initial string
 
         Returns:
-            str : return a string without pronoun with apostrophe 
+            str : return a string without pronoun with apostrophe
         """
-        result = re.sub(r"(\b\w')+",'',astring)
+        result = re.sub(r"(\b\w')+", "", astring)
         return result
-         
-    def __make_all_small_caps(self,astring):
+
+    def __make_all_small_caps(self, astring):
         """Put all Caps in a string into small caps
 
         Args:
@@ -39,8 +36,8 @@ class Customparser:
         rawstring = self.__enlever_pronom_avec_apostrophe(astring)
         result = rawstring.lower()
         return result
-    
-    def __enlever_les_accents(self,astring):
+
+    def __enlever_les_accents(self, astring):
         """Replace all letters with accents with the same
         letter without accent.
 
@@ -52,12 +49,12 @@ class Customparser:
         """
         rawstring = self.__make_all_small_caps(astring)
         cleanstring = unidecode.unidecode(rawstring)
-        return cleanstring   
-        
-    def __cut_loc(self,astring):
+        return cleanstring
+
+    def __cut_loc(self, astring):
         """Takes the part of a string where a location is asked (in french only).
            From a stopword that indicate that we are looking for a loc to the next
-           punctuation stop (!?.) 
+           punctuation stop (!?.)
 
         Args:
             astring (str): initial string
@@ -73,18 +70,24 @@ class Customparser:
             if words in stop1:
                 indexdebut = splittedstring.index(words)
         firstclean = splittedstring[indexdebut::]
+        print(firstclean)
+        print(len(firstclean))
         patern = r'\w+\?'
-        for words in firstclean:
-            find = re.search(patern, words)
-            if find is not None:
-                indexfin = firstclean.index(words)
-        cleanlist = firstclean[:indexfin+1]
-        
-        return cleanlist
+        if len(firstclean) > 1:
+            for words in firstclean:
+                print(words)
+                if re.match(patern, words) is not None:
+                    indexfin = firstclean.index(words)
+        else:
+            return firstclean
                 
+        cleanlist = firstclean[: indexfin + 1]
+
+        return cleanlist
+
     def get_loc_as_string(self):
         """From the list of string return by Customparse.__cut_loc() method
-           extract the keyword defining the location asked by the user and return it as a string. 
+           extract the keyword defining the location asked by the user and return it as a string.
         Args:
             alist (list): initial list
 
@@ -93,7 +96,7 @@ class Customparser:
         """
         rawlist = self.__cut_loc(self.userinput)
         put_in_string = " ".join(rawlist)
-        newstring = re.sub('[?!.,]', '',put_in_string)
+        newstring = re.sub("[?!.,]", "", put_in_string)
         make_a_list = newstring.split(" ")
         for words in config.stopwords:
             while words in make_a_list:
@@ -102,5 +105,5 @@ class Customparser:
             while words in make_a_list:
                 make_a_list.remove(words)
         finalstring = " ".join(make_a_list)
+        print(finalstring)
         return finalstring
-        
